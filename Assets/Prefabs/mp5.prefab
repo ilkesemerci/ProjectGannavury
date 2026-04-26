@@ -7,7 +7,7 @@
     "Position": "0,0,0",
     "Rotation": "0,0,-8.91864627E-09,1",
     "Scale": "1,1,1",
-    "Tags": "rifle,usable",
+    "Tags": "weapon,usable",
     "Enabled": true,
     "NetworkMode": 2,
     "NetworkFlags": 0,

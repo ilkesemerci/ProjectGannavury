@@ -5882,6 +5882,32 @@
               "Static": true,
               "Surface": null,
               "SurfaceVelocity": "0,0,0"
+            },
+            {
+              "__type": "Sandbox.BoxCollider",
+              "__guid": "528e167e-5066-42cf-8fc4-1055f53e5aa9",
+              "__enabled": true,
+              "Flags": 0,
+              "Center": "24.7483826,0,16.2743073",
+              "ColliderFlags": 0,
+              "Elasticity": null,
+              "Friction": null,
+              "IsTrigger": false,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null,
+              "OnObjectTriggerEnter": null,
+              "OnObjectTriggerExit": null,
+              "OnTriggerEnter": null,
+              "OnTriggerExit": null,
+              "RollingResistance": null,
+              "Scale": "149.496735,50,144.833801",
+              "Static": false,
+              "Surface": null,
+              "SurfaceVelocity": "0,0,0"
             }
           ],
           "Children": []
@@ -6056,6 +6082,32 @@
               "RollingResistance": null,
               "SmoothingAngle": 40,
               "Static": true,
+              "Surface": null,
+              "SurfaceVelocity": "0,0,0"
+            },
+            {
+              "__type": "Sandbox.BoxCollider",
+              "__guid": "5fefb7c2-4936-481b-86bb-6361e7d29138",
+              "__enabled": true,
+              "Flags": 0,
+              "Center": "48.4801674,0,15.025589",
+              "ColliderFlags": 0,
+              "Elasticity": null,
+              "Friction": null,
+              "IsTrigger": false,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null,
+              "OnObjectTriggerEnter": null,
+              "OnObjectTriggerExit": null,
+              "OnTriggerEnter": null,
+              "OnTriggerExit": null,
+              "RollingResistance": null,
+              "Scale": "112.147964,50,139.625336",
+              "Static": false,
               "Surface": null,
               "SurfaceVelocity": "0,0,0"
             }
@@ -6773,43 +6825,7 @@
       "__version": 2,
       "__Prefab": "prefabs/player.prefab",
       "__PrefabInstancePatch": {
-        "AddedObjects": [
-          {
-            "Id": {
-              "Type": "Component",
-              "IdValue": "8ae81ae7-f91e-4815-9b01-44274ae784fa"
-            },
-            "Parent": {
-              "Type": "GameObject",
-              "IdValue": "41cda410-af1e-4493-a0dc-f6c91db29d8e"
-            },
-            "PreviousElement": {
-              "Type": "Component",
-              "IdValue": "9518a8da-4234-4eb8-94f3-a0362dd5e8b1"
-            },
-            "ContainerProperty": "Components",
-            "IsContainerArray": true,
-            "Data": {
-              "__type": "Sandbox.Bloom",
-              "__guid": "8ae81ae7-f91e-4815-9b01-44274ae784fa",
-              "__enabled": true,
-              "Flags": 0,
-              "__version": 1,
-              "Filter": "Bilinear",
-              "Gamma": 1.7,
-              "Mode": "Blur",
-              "OnComponentDestroy": null,
-              "OnComponentDisabled": null,
-              "OnComponentEnabled": null,
-              "OnComponentFixedUpdate": null,
-              "OnComponentStart": null,
-              "OnComponentUpdate": null,
-              "Strength": 8,
-              "Threshold": 1,
-              "Tint": "0.36471,0,1,1"
-            }
-          }
-        ],
+        "AddedObjects": [],
         "RemovedObjects": [],
         "PropertyOverrides": [
           {
@@ -7004,7 +7020,7 @@
         "18cf548a-5447-4bc3-800f-cb6038c1c9dc": "090beed2-9d6b-44af-aa9d-101766a30e78",
         "834f7e56-b392-4aff-a625-9da15348b943": "ab878534-c76a-4322-9714-230db00c30ae",
         "d32f4269-5a5c-47f5-b2be-3bc3182a41a3": "06836b30-7c08-4f76-8fb0-d259ca5fa924",
-        "e1931e48-7d8d-4c62-b29d-e562a57cc7ea": "68b3ebbd-5657-4032-9815-f7f986125f92"
+        "b502929a-f3b5-4999-9d76-3ae7f19c4c49": "8382936c-7d8c-43fa-bbfc-8eaa06e566ce"
       }
     },
     {
@@ -7234,7 +7250,7 @@
         "9c232ae1-3c00-4540-8139-f104df27d852": "1d68a1f6-9bf4-4411-8337-a3495b8aae91",
         "834f7e56-b392-4aff-a625-9da15348b943": "6a137d1e-69da-41f3-90a0-854e4bbd97c1",
         "d32f4269-5a5c-47f5-b2be-3bc3182a41a3": "8c617682-d2d2-4c20-a684-c1842b4bbcc0",
-        "e1931e48-7d8d-4c62-b29d-e562a57cc7ea": "c7492486-538d-4ced-b928-0aaff5aea1bc"
+        "b502929a-f3b5-4999-9d76-3ae7f19c4c49": "2d939e05-4f06-4937-b82a-08702b03fce2"
       }
     },
     {
@@ -7330,7 +7346,7 @@
         "9c232ae1-3c00-4540-8139-f104df27d852": "8f647f7f-9df3-472c-a6c8-754b29f16996",
         "834f7e56-b392-4aff-a625-9da15348b943": "5ad52032-9cc9-4d96-80b0-dffd05d142c3",
         "d32f4269-5a5c-47f5-b2be-3bc3182a41a3": "3a1fea29-0f90-4a2f-baec-d3ff233af8f2",
-        "e1931e48-7d8d-4c62-b29d-e562a57cc7ea": "b937ad53-c82e-492e-832b-013eb24a983d"
+        "b502929a-f3b5-4999-9d76-3ae7f19c4c49": "c35d2fdc-1eb4-484a-b186-2edd26190e3e"
       }
     },
     {
@@ -7625,6 +7641,84 @@
               "Static": false,
               "Surface": null,
               "SurfaceVelocity": "0,0,0"
+            }
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "509c436a-a284-44a8-ad34-ee846a250545"
+            },
+            "Parent": {
+              "Type": "GameObject",
+              "IdValue": "f8b1a514-044b-477c-b49b-fafa8ef586cd"
+            },
+            "PreviousElement": {
+              "Type": "Component",
+              "IdValue": "a219bd57-dcf4-49f9-8414-f0dd7ed7a4fb"
+            },
+            "ContainerProperty": "Components",
+            "IsContainerArray": true,
+            "Data": {
+              "__type": "JointBase",
+              "__guid": "509c436a-a284-44a8-ad34-ee846a250545",
+              "__enabled": true,
+              "Flags": 0,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "f1649290-f8a6-404e-8d23-062929f76efa"
+            },
+            "Parent": {
+              "Type": "GameObject",
+              "IdValue": "f8b1a514-044b-477c-b49b-fafa8ef586cd"
+            },
+            "PreviousElement": {
+              "Type": "Component",
+              "IdValue": "509c436a-a284-44a8-ad34-ee846a250545"
+            },
+            "ContainerProperty": "Components",
+            "IsContainerArray": true,
+            "Data": {
+              "__type": "Sandbox.Rigidbody",
+              "__guid": "f1649290-f8a6-404e-8d23-062929f76efa",
+              "__enabled": true,
+              "Flags": 0,
+              "AngularDamping": 0,
+              "EnableImpactDamage": true,
+              "EnhancedCcd": false,
+              "Gravity": true,
+              "GravityScale": 1,
+              "ImpactDamage": 0,
+              "LinearDamping": 0,
+              "Locking": {
+                "X": false,
+                "Y": false,
+                "Z": false,
+                "Pitch": false,
+                "Yaw": false,
+                "Roll": false
+              },
+              "MassCenterOverride": "0,0,0",
+              "MassOverride": 0,
+              "MinImpactDamageSpeed": 500,
+              "MotionEnabled": true,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null,
+              "OverrideMassCenter": false,
+              "RigidbodyFlags": 0,
+              "StartAsleep": false
             }
           }
         ],
@@ -7980,7 +8074,7 @@
               "IdValue": "2ca74f87-b1ae-449c-af49-a83d294721ba"
             },
             "Property": "Position",
-            "Value": "62.7397614,477.152191,53.2911415"
+            "Value": "62.7397614,464.266022,53.2911415"
           }
         ],
         "MovedObjects": []
@@ -7990,6 +8084,40 @@
         "e0ef2972-0ccb-4a68-8d1f-cee8bf2cabc9": "e473f348-ce82-404b-9aa0-7c44284197c2",
         "62f668d0-18ab-491a-8b76-3ca25e92f52e": "f8b33db5-4240-4257-8069-67a1a8a7ba2a",
         "15f3e746-aa95-48e4-a959-41a5e029013a": "f5207da9-2d76-4e45-bb72-18f7b145f34e"
+      }
+    },
+    {
+      "__guid": "5be5d2cf-8584-414a-8053-737501f10849",
+      "__version": 2,
+      "__Prefab": "prefabs/m4a1.prefab",
+      "__PrefabInstancePatch": {
+        "AddedObjects": [],
+        "RemovedObjects": [],
+        "PropertyOverrides": [
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "2ca74f87-b1ae-449c-af49-a83d294721ba"
+            },
+            "Property": "Name",
+            "Value": "m4a1 (1)"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "2ca74f87-b1ae-449c-af49-a83d294721ba"
+            },
+            "Property": "Position",
+            "Value": "-5.81526947,464.266022,53.2911415"
+          }
+        ],
+        "MovedObjects": []
+      },
+      "__PrefabIdToInstanceId": {
+        "2ca74f87-b1ae-449c-af49-a83d294721ba": "5be5d2cf-8584-414a-8053-737501f10849",
+        "e0ef2972-0ccb-4a68-8d1f-cee8bf2cabc9": "58afaddb-5b8c-4e45-b831-c06d219d593b",
+        "62f668d0-18ab-491a-8b76-3ca25e92f52e": "45c74b8a-f3ad-44d6-9a00-939702bb0b44",
+        "15f3e746-aa95-48e4-a959-41a5e029013a": "fa65a402-ad9b-44cb-9b5a-ea7d82132f96"
       }
     },
     {
@@ -8006,7 +8134,7 @@
               "IdValue": "990472a8-4d1a-4ae2-8941-25b8be26eed1"
             },
             "Property": "Position",
-            "Value": "34.1426506,480,52.0800514"
+            "Value": "34.1426506,464.871674,52.0800514"
           }
         ],
         "MovedObjects": []
@@ -8151,11 +8279,6 @@
     "GameObjectSystems": {
       "Sandbox.MovieMaker.MovieRecorderSystem": {
         "DisableClientRecording": false
-      },
-      "Sandbox.Clutter.ClutterGridSystem": {
-        "Storage": {
-          "$blob": "9d7ea078-5ff9-4424-992b-09185bf4ba1a"
-        }
       }
     }
   },

@@ -9,8 +9,8 @@ public sealed class Inventory : Component
 
 	private int _currentIndex = 0;
     private int _oldestJoint = 0;
-	private List<GameObject> _weaponSlots = new();
-    private List<GameObject> _jointSlots = new();
+	[Property] private List<GameObject> _weaponSlots = new();
+    [Property] private List<GameObject> _jointSlots = new();
     private int _maxWeapons = 2;
     private int _maxJoints = 3;
 
@@ -50,6 +50,9 @@ public sealed class Inventory : Component
             // 1. Spawn a copy of the prefab into the world
             var newItem = prefab.Clone();
 
+            var collider = newItem.GetComponent<BoxCollider>();
+            if ( collider.IsValid() && collider.Enabled ) collider.Enabled = false;  
+
             // 2. Parent it to the hold point
             newItem.Parent = WeaponSocket;
 
@@ -80,28 +83,8 @@ public sealed class Inventory : Component
         {
             AddJoint(newItem);
         }
-        else if(_weaponSlots.Count < _maxWeapons )
-        {
-            var collider = newItem.GetComponent<BoxCollider>();
-            if ( collider.IsValid() && collider.Enabled ) collider.Enabled = false;     
+        else if(newItem.Tags.Has("weapon")) AddWeapon(newItem);
 
-            newItem.Parent = WeaponSocket;
-            newItem.LocalPosition = Vector3.Zero;
-
-            if ( _weaponSlots.Count > 0 ) newItem.LocalRotation = _weaponSlots[0].LocalRotation;
-            else newItem.LocalRotation = Rotation.From( 0f, 0f, -90f );
-
-            newItem.Enabled = false;
-            _weaponSlots.Add(newItem);
-
-            if ( _weaponSlots.Count == 1 ) EquipItem( 0 );
-
-            Log.Info($"Item: {newItem} is newItem to the backpack!");
-        }
-        else
-        {
-            _weaponSlots[_currentIndex] = newItem;
-        } 
 	}
 
     private void AddWeapon(GameObject weapon )
@@ -115,9 +98,6 @@ public sealed class Inventory : Component
 
             weapon.Parent = WeaponSocket;
             weapon.LocalPosition = Vector3.Zero;
-
-            if ( _weaponSlots.Count > 0 ) weapon.LocalRotation = _weaponSlots[0].LocalRotation;
-            else weapon.LocalRotation = Rotation.From( 0f, 0f, -90f );
 
             weapon.Enabled = false;
             _weaponSlots.Add(weapon);
@@ -136,12 +116,8 @@ public sealed class Inventory : Component
             weapon.Parent = WeaponSocket;
             weapon.LocalPosition = Vector3.Zero;
 
-            if ( _weaponSlots.Count > 0 ) weapon.LocalRotation =
-                 _weaponSlots[(_currentIndex+1) % _maxWeapons ].LocalRotation;
-       
-            else weapon.LocalRotation = Rotation.From( 0f, 0f, -90f );
-
             _weaponSlots[_currentIndex] = weapon;
+            EquipItem(_currentIndex);
 
             Log.Info($"Item: {weapon} is newItem to the backpack!");
         } 
@@ -154,18 +130,85 @@ public sealed class Inventory : Component
         if(_jointSlots.Count >= _maxJoints )
         {
             Drop(_jointSlots[_oldestJoint]);
+
+            var collider = jo.GetComponent<BoxCollider>();
+            if ( collider.IsValid() && collider.Enabled ) collider.Enabled = false;     
+
+            jo.Parent = WeaponSocket;
+            jo.LocalPosition = Vector3.Zero;
+            jo.LocalRotation = Rotation.From( 0f, 0f, -90f );
+
+            var mr = jo.Components.Get<SkinnedModelRenderer>();
+            mr.RenderType = Sandbox.ModelRenderer.ShadowRenderType.ShadowsOnly;
+
             _jointSlots[_oldestJoint] = jo;
             _oldestJoint = (_oldestJoint + 1) % 3;
         }
         else
         {
+            var collider = jo.GetComponent<BoxCollider>();
+            if ( collider.IsValid() && collider.Enabled ) collider.Enabled = false;     
+
+            jo.Parent = WeaponSocket;
+            jo.LocalPosition = Vector3.Zero;
+            jo.LocalRotation = Rotation.From( 0f, 0f, -90f );
+
+            var mr = jo.Components.Get<SkinnedModelRenderer>();
+            mr.RenderType = Sandbox.ModelRenderer.ShadowRenderType.ShadowsOnly;
             _jointSlots.Add(jo);
+
+            Log.Info($"Item: {jo} is newItem to the backpack!");
+        }
+    }
+    private void DisableItemPhysics( GameObject item )
+    {
+        // Find ALL types of colliders on the item AND its children
+        var colliders = item.Components.GetAll<Collider>( FindMode.EverythingInSelfAndDescendants );
+        foreach ( var col in colliders )
+        {
+            col.Enabled = false;
+        }
+
+        // Put the Rigidbody to sleep so it doesn't fight the player's movement
+        var rb = item.Components.Get<Rigidbody>( FindMode.EverythingInSelfAndDescendants );
+        if ( rb.IsValid() )
+        {
+            rb.MotionEnabled = false;
         }
     }
 
-    private void Drop(GameObject obj )
+    private void EnableItemPhysics( GameObject item )
     {
-        obj.Clone().SetParent(Scene);
+        // Turn every collider back on
+        var colliders = item.Components.GetAll<Collider>( FindMode.EverythingInSelfAndDescendants );
+        foreach ( var col in colliders )
+        {
+            col.Enabled = true;
+        }
+
+        // Wake up (or create) the Rigidbody
+        var rb = item.Components.GetOrCreate<Rigidbody>();
+        rb.MotionEnabled = true;
+    }
+
+    private void Drop( GameObject obj )
+    {
+        var dropObj = obj.Clone();
+        var pos = obj.WorldPosition;
+        
+        if ( dropObj.IsValid() )
+        {
+            dropObj.SetParent( Scene );
+            dropObj.WorldPosition = pos;
+            dropObj.Enabled = true;
+
+            EnableItemPhysics( dropObj );
+        
+            var rb = dropObj.Components.Get<Rigidbody>(); 
+            var dropVelocity = Scene.Camera.WorldRotation.Forward * 200f + Vector3.Up * 100f;
+            rb.Velocity = dropVelocity;
+        }
+
         obj.Destroy();
     }
 

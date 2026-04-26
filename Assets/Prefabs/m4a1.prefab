@@ -7,7 +7,7 @@
     "Position": "0,0,0",
     "Rotation": "0,0,0,1",
     "Scale": "1,1,1",
-    "Tags": "pistol,usable",
+    "Tags": "weapon,usable",
     "Enabled": true,
     "NetworkMode": 2,
     "NetworkFlags": 0,
@@ -85,7 +85,7 @@
         "__guid": "15f3e746-aa95-48e4-a959-41a5e029013a",
         "__enabled": true,
         "Flags": 0,
-        "Center": "3.591866,-1.445001,4.804979",
+        "Center": "3.59186602,-1.44500101,4.80497885",
         "ColliderFlags": 0,
         "Elasticity": null,
         "Friction": null,
@@ -101,7 +101,7 @@
         "OnTriggerEnter": null,
         "OnTriggerExit": null,
         "RollingResistance": null,
-        "Scale": "30.39838,7.308589,14.51546",
+        "Scale": "30.3983803,7.30858898,14.51546",
         "Static": false,
         "Surface": null,
         "SurfaceVelocity": "0,0,0"
@@ -124,6 +124,7 @@
         "AgentMaxSlope": 40,
         "ExcludedBodies": "",
         "IncludedBodies": "",
+        "DeferGeneration": false,
         "CustomBounds": false
       }
     },

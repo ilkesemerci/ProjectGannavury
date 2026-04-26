@@ -48,10 +48,12 @@ public sealed class Interactor : Component
         {
             // Ask the object: Do you or your parents have the IUsable contract?
             var usable = trace.GameObject.Components.Get<IUsable>( FindMode.EverythingInSelfAndParent );
+            
 
             if ( usable != null )
             {
                 // TODO later: You could trigger UI here using usable.GetUseText()
+                DebugOverlay.Text(trace.GameObject.WorldPosition + Vector3.Up * 10f, usable.GetUseText(),16);
 
                 // If the player presses 'E' (or whatever you bound 'use' to)
                 if ( Input.Pressed( "use" ) )
