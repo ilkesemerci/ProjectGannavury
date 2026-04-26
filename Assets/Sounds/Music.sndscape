@@ -1,0 +1,14 @@
+{
+  "MasterVolume": "1",
+  "LoopedSounds": [
+    {
+      "SoundFile": "sounds/downtown-winter/musicbox.vsnd",
+      "Volume": "1"
+    }
+  ],
+  "StingSounds": [],
+  "__references": [
+    "titanovsky.dwn_wnt_musicbox#78514"
+  ],
+  "__version": 0
+}

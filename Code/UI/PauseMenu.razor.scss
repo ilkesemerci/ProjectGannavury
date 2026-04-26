@@ -1,0 +1,49 @@
+PauseMenu
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(black,0.8);
+	pointer-events: all;
+	color: white;
+	font-family: Poppins;
+	font-size: 64px;
+	> .h1
+	{
+		font-size: 128px;
+		font-weight: bolder;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	> .options 
+	{
+		flex-direction: column;
+		align-items: center;
+
+		> .button
+		{
+			&.hover
+			{
+				sound-in: ui.button.over;
+			}
+			&.active
+			{
+				sound-in: ui.button.pressed;
+			}
+			&.sfx
+			{
+				&:active
+				{
+					sound-in: ui.downvote;
+				}
+			}
+		}
+	}
+	&.hide
+	{
+		opacity: 0;
+	}
+}

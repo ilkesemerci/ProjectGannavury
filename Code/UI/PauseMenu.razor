@@ -1,0 +1,39 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root class = "@(IsPaused ? "" : "hide")">
+	<h1>PAUSED</h1>
+	<div class="options">
+		<div class = "button" onclick=@OnResume >
+			Resume
+		</div>
+		<div class = "button sfx">
+			Play Sound
+		</div>
+	</div>
+</root>
+
+@code
+{
+    public bool IsPaused;
+
+    protected override void OnUpdate()
+    {
+        base.OnUpdate();
+
+		if(Input.Pressed("PAUSED"))
+		{
+			IsPaused = !IsPaused;
+		}
+
+		Scene.TimeScale = IsPaused ? 0 : 1;
+    }
+
+	private void OnResume()
+	{
+		IsPaused = false;
+	}
+    protected override int BuildHash() => System.HashCode.Combine( "" );
+}

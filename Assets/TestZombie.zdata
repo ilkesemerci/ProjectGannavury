@@ -1,0 +1,9 @@
+{
+  "MaxHealth": 50,
+  "MovementSpeed": 300,
+  "AttackDamage": 10,
+  "AttackRange": 200,
+  "HasArmor": false,
+  "__references": [],
+  "__version": 0
+}
