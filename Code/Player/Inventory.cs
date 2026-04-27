@@ -7,12 +7,15 @@ public sealed class Inventory : Component
 	[Property] public GameObject WeaponSocket {get;set;}
 	[Property] public SkinnedModelRenderer ModelRenderer {get;set;}
 
+    public float FireRate;
+
 	private int _currentIndex = 0;
     private int _oldestJoint = 0;
 	[Property] private List<GameObject> _weaponSlots = new();
     [Property] private List<GameObject> _jointSlots = new();
     private int _maxWeapons = 2;
     private int _maxJoints = 3;
+
 
 	protected override void OnStart()
 	{
@@ -287,4 +290,32 @@ public sealed class Inventory : Component
             else if(tag.ToString() == "knife") ModelRenderer.Set("holdtype",5);
         }
 	}
+
+    public void ChangeFireRate(float FRmultiplier)
+    {
+        foreach( var wpn in _weaponSlots )
+        {
+            var cmp = wpn.GetComponent<WeaponSystem>();
+            if ( cmp.IsValid() )
+            {
+                var fr = cmp.GetFireRate();
+                fr *= FRmultiplier;
+                cmp.SetFireRate(fr);
+            }
+        }
+    }
+
+    public void ChangeDamage(float DmgMultiplier)
+    {
+        foreach( var wpn in _weaponSlots )
+        {
+            var cmp = wpn.GetComponent<WeaponSystem>();
+            if ( cmp.IsValid() )
+            {
+                var dmg = cmp.GetDamage();
+                dmg *= DmgMultiplier;
+                cmp.SetDamage(dmg);
+            }
+        }
+    }
 }

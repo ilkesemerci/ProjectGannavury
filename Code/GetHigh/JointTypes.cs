@@ -14,27 +14,38 @@ public readonly struct JointTypeStats
     public float FireRateMultiplier { get; init; }
 	public float SpeedMultiplier { get; init; }
 	public float DamageMultiplier { get; init; }
-	public float Duration { get; init; }
 	public float Cooldown { get; init; }
-	public bool CanStun { get; init; }
-	public bool UsesBloom { get; init; }
-	public bool UsesBlur { get; init; }
-	public bool UsesMotionBlur { get; init; }
 }
 
-public readonly struct WeedEffectData
+public readonly struct VisualEffectData
 {
 	public float FadeOutDuration { get; init; }
 	public float EffectDuration { get; init; }
+
+	// Camera Settings
+	public float CameraFieldOfView { get; init; }
     
     // Bloom Settings
     public float BloomStrength { get; init; }
     public float BloomThreshold { get; init; }
     public float BloomGamma { get; init; }
-	public Color BloomColor { get; init; }
+	public Color BloomTint { get; init; }
 
 	// Chromatic Aberation Settings ( can be used as a waving effect )
 	public float ChromaticScale { get; init; }
+
+	// Pixelate Settings
+	public float PixelateScale { get; init; } // between 0 and 1
+
+	// Sharpen Settings
+	public float SharpenScale { get; init; }
+	public float SharpenTexelSize { get; init; }
+
+	// Vignette Settings
+	public Color VignetteColor { get; init; }
+	public float VignetteIntensity { get; init; }
+	public float VignetteSmoothnes { get; init; }
+	public float VignetteRoundness { get; init; }
 
 	// Film Grain Settings 
 	public float FilmGrainIntensity { get; init; } // between 0 and 1
@@ -54,39 +65,33 @@ public static class JointTypeConfig
 {
     private static readonly JointTypeStats GannavuriStats = new()
 	{
-		FireRateMultiplier = 1f,
+		FireRateMultiplier = 0.92f,
 		SpeedMultiplier = 0.8f,
-		DamageMultiplier = 1.5f,
-		Duration = 20f,
+		DamageMultiplier = 1.3f,
         Cooldown = 30f,
-		UsesBlur = true
 	};
 
     private static readonly JointTypeStats PurpleHazeStats = new()
 	{
-		FireRateMultiplier = 1.1f,
+		FireRateMultiplier = 0.7f,
 		SpeedMultiplier = 1.5f,
 		DamageMultiplier = 1f,
-		Duration = 20f,
         Cooldown = 30f,
-		UsesBloom = true
 	};
 
     private static readonly JointTypeStats AK47Stats = new()
 	{
-		FireRateMultiplier = 1.6f,
+		FireRateMultiplier = 0.85f,
 		SpeedMultiplier = 1f,
-		DamageMultiplier = 1.3f,
-		Duration = 20f,
+		DamageMultiplier = 1.8f,
         Cooldown = 30f
 	};
 
     private static readonly JointTypeStats OGKushStats = new()
 	{
-		FireRateMultiplier = 0.7f,
+		FireRateMultiplier = 1.3f,
 		SpeedMultiplier = 0.6f,
 		DamageMultiplier = 15f,
-		Duration = 20f,
         Cooldown = 30f
 	};
 
@@ -95,9 +100,7 @@ public static class JointTypeConfig
 		FireRateMultiplier = 1f,
 		SpeedMultiplier = 1f,
 		DamageMultiplier = 1f,
-		Duration = 2f,
-        Cooldown = 60f,
-		CanStun = true
+        Cooldown = 45f,
 	};
 
     /// <summary>
@@ -120,38 +123,67 @@ public static class JointTypeConfig
 /// <summary>
 /// Provides per-type effects configurations for each <see cref="JointType"/>.
 /// </summary>
-public static class WeedEffectConfig
+public static class VisualEffectConfig
 {
-	private static readonly WeedEffectData GannavuriEffects = new()
+	private static readonly VisualEffectData GannavuriEffects = new()
 	{
-		EffectDuration = 10f,
+		EffectDuration = 20f,
 		FadeOutDuration = 2f,
-        BlurSize = 1f
+		
+		BlurSize = 0.06f,
+		ChromaticScale = 0.5f,
+		FilmGrainIntensity = 0.04f,
+		MotionBlurScale = 0.1f
+
 	};
 
-	private static readonly WeedEffectData PurpleHazeEffects = new()
+	private static readonly VisualEffectData PurpleHazeEffects = new()
 	{
-		EffectDuration = 10f,
+		EffectDuration = 20f,
 		FadeOutDuration = 2f,
-		BloomStrength = 8f,
-		BloomThreshold = 1f,
-		BloomGamma = 1.7f,
-		BloomColor = Color.Magenta
+		CameraFieldOfView = 80f,
+		BloomStrength = 2f,
+		BloomThreshold = 1.2f,
+		BloomGamma = 1.8f,
+		BloomTint = Color.Magenta,
+		MotionBlurScale = 0.7f,
+		SharpenScale = 0.5f,
+		SharpenTexelSize = 2f,
+		VignetteColor = Color.Magenta,
+		VignetteIntensity = 0.3f,
+		VignetteSmoothnes = 1f,
+		VignetteRoundness = 0.6f
 
 	}; 
 
-	private static readonly WeedEffectData AK47Effects = new()
+	private static readonly VisualEffectData AK47Effects = new()
 	{
 		
 	}; 
 
-	private static readonly WeedEffectData OGKushEffects = new()
+	private static readonly VisualEffectData OGKushEffects = new()
 	{
 		
 	}; 
 
-	private static readonly WeedEffectData BlueDreamEffects = new()
+	private static readonly VisualEffectData BlueDreamEffects = new()
 	{
 		
 	}; 
+
+	/// <summary>
+	/// Returns the immutable stats configuration for the given <see cref="JointType"/>.
+	/// </summary>
+	public static VisualEffectData GetConfig( JointType type )
+	{
+		return type switch
+		{
+			JointType.Gannavuri => GannavuriEffects,
+			JointType.PurpleHaze => PurpleHazeEffects,
+			JointType.AK47 => AK47Effects,
+			JointType.BlueDream => BlueDreamEffects,
+            JointType.OGKush => OGKushEffects,
+			_ => GannavuriEffects
+		};
+	}
 }

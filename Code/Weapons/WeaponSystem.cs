@@ -147,4 +147,24 @@ public sealed class WeaponSystem : Component, IUsable
         Log.Info("knife shoot");
 
 	}
+
+    public float GetFireRate()
+    {
+        return FireRate;
+    }
+
+    public void SetFireRate(float newFR )
+    {
+        FireRate = newFR;
+    }
+
+    public float GetDamage()
+    {
+        return Damage;
+    }
+
+    public void SetDamage(float newDmg )
+    {
+        Damage = newDmg;
+    }
 }
