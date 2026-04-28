@@ -1,4 +1,7 @@
+using System;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Xml.Schema;
 using Sandbox;
 
 
@@ -244,14 +247,215 @@ public sealed partial class JointBase : Component, IUsable
         }
 	}
 	
-	private void AK47Effects(){}
-	private void DisableAK47(){}
+	private async void AK47Effects()
+	{
+		_cam.FieldOfView = EffectData.CameraFieldOfView;
 
-	private void OGKushEffects(){}
-	private void DisableOGKush(){}
+		_bloom = _player.Components.GetOrCreate<Bloom>();
+		_bloom.Strength = EffectData.BloomStrength;
+		_bloom.Threshold = EffectData.BloomThreshold;
+		_bloom.Gamma = EffectData.BloomGamma;
+		_bloom.Tint = EffectData.BloomTint;
+		_shrp = _player.Components.GetOrCreate<Sharpen>();
+		_shrp.Scale = EffectData.SharpenScale;
+		_shrp.TexelSize = EffectData.SharpenTexelSize;
+		_vig = _player.Components.GetOrCreate<Vignette>();
+		_vig.Color = EffectData.VignetteColor;
+		_vig.Intensity = EffectData.VignetteIntensity;
+		_vig.Smoothness = EffectData.VignetteSmoothnes;
+		_vig.Roundness = EffectData.VignetteRoundness;
 
-	private void BlueDreamEffects(){}
-	private void DisableBlueDream(){}
+		_oldSpeed = PlayerMovement.Speed;
+		_oldRunSpeed = PlayerMovement.RunSpeed;
+
+		PlayerMovement.Speed *= TypeStats.SpeedMultiplier;
+		PlayerMovement.RunSpeed *= TypeStats.SpeedMultiplier;
+
+		Inventory.ChangeFireRate(TypeStats.FireRateMultiplier);
+		Inventory.ChangeDamage(TypeStats.DamageMultiplier);
+
+		_isFadingOut = false;
+
+        // The duration of effect in milliseconds
+        await Task.Delay( (int)(EffectData.EffectDuration * 1000) );
+
+        if ( !this.IsValid() ) return;
+
+        // Trigger the fade out loop in OnUpdate
+        _isFadingOut = true;
+        _timeSinceFadeStarted = 0;
+	}
+	private void DisableAK47()
+	{
+        if ( _isFadingOut )
+        {
+            float fraction = _timeSinceFadeStarted / 3f;
+            
+            fraction = MathX.Clamp( fraction, 0f, 1f );
+
+			_cam.FieldOfView = MathX.Lerp( EffectData.CameraFieldOfView , 60f , fraction );
+
+            _bloom.Strength = MathX.Lerp( EffectData.BloomStrength, 1f, fraction );
+			_bloom.Threshold = MathX.Lerp( EffectData.BloomThreshold, 1f, fraction );
+			_bloom.Gamma = MathX.Lerp( EffectData.BloomGamma, 2.2f, fraction );
+
+			_shrp.Scale = MathX.Lerp( EffectData.SharpenScale, 0f, fraction) ;
+			
+			_vig.Intensity = MathX.Lerp( EffectData.VignetteIntensity, 0f, fraction );
+
+			PlayerMovement.Speed = MathX.Lerp( PlayerMovement.Speed, _oldSpeed, fraction );
+			PlayerMovement.RunSpeed = MathX.Lerp( PlayerMovement.RunSpeed, _oldRunSpeed, fraction );
+
+            if ( fraction >= 1f )
+            {
+                _isFadingOut = false;
+                _bloom.Destroy(); 
+				_shrp.Destroy();
+				_vig.Destroy();
+				_mBlur.Destroy();
+				Inventory.ChangeFireRate(1/TypeStats.FireRateMultiplier);
+				Inventory.ChangeDamage(1/TypeStats.DamageMultiplier);
+			}
+		}
+	}
+
+	private async void OGKushEffects()
+	{
+		_cam.FieldOfView = EffectData.CameraFieldOfView;
+
+		_bloom = _player.Components.GetOrCreate<Bloom>();
+		_bloom.Strength = EffectData.BloomStrength;
+		_bloom.Threshold = EffectData.BloomThreshold;
+		_bloom.Gamma = EffectData.BloomGamma;
+		_bloom.Tint = EffectData.BloomTint;
+
+		_chrAb = _player.Components.GetOrCreate<ChromaticAberration>();
+		_chrAb.Scale = EffectData.ChromaticScale;
+
+		_pix = _player.Components.GetOrCreate<Pixelate>();
+		_pix.Scale = EffectData.PixelateScale;
+
+		_oldSpeed = PlayerMovement.Speed;
+		_oldRunSpeed = PlayerMovement.RunSpeed;
+
+		PlayerMovement.Speed = TypeStats.SpeedMultiplier;
+		PlayerMovement.RunSpeed = TypeStats.SpeedMultiplier;
+
+		Inventory.ChangeFireRate(TypeStats.FireRateMultiplier);
+		Inventory.ChangeDamage(TypeStats.DamageMultiplier);
+
+		await Task.Delay((int)(EffectData.EffectDuration * 1000));
+
+		if( !this.IsValid() ) return;
+
+		_isFadingOut = true;
+        _timeSinceFadeStarted = 0;
+	}
+	private void DisableOGKush()
+	{
+		if ( _isFadingOut )
+		{
+			float fraction = _timeSinceFadeStarted / 3f;
+			fraction = MathX.Clamp( fraction, 0f, 1f );
+
+			_cam.FieldOfView = MathX.Lerp( EffectData.CameraFieldOfView, 60f, fraction );
+
+			_bloom.Strength = MathX.Lerp( EffectData.BloomStrength, 0f, fraction );
+
+			_chrAb.Scale = MathX.Lerp( EffectData.ChromaticScale, 0f, fraction );
+
+			_pix.Scale = MathX.Lerp( EffectData.PixelateScale, 0f, fraction );
+
+			PlayerMovement.Speed = MathX.Lerp( PlayerMovement.Speed, _oldSpeed, fraction );
+			PlayerMovement.RunSpeed = MathX.Lerp( PlayerMovement.RunSpeed, _oldSpeed, fraction );
+
+			if ( fraction >= 1f )
+            {
+                _isFadingOut = false;
+                _bloom.Destroy(); 
+				_pix.Destroy();
+				_chrAb.Destroy();
+				Inventory.ChangeFireRate(1/TypeStats.FireRateMultiplier);
+				Inventory.ChangeDamage(1/TypeStats.DamageMultiplier);
+			}
+
+		}
+	}
+
+	private async void BlueDreamEffects()
+	{
+		_vig = _player.Components.GetOrCreate<Vignette>();
+		_vig.Color = EffectData.VignetteColor;
+		_vig.Intensity = EffectData.VignetteIntensity;
+		_vig.Smoothness = EffectData.VignetteSmoothnes;
+		_vig.Roundness = EffectData.VignetteRoundness;
+
+		_chrAb = _player.Components.GetOrCreate<ChromaticAberration>();
+		_chrAb.Scale = EffectData.ChromaticScale;
+
+		if ( !_cam.IsValid() ) return;
+
+        float breathRange = 300f; // How far forward it goes
+        float breathWidth = 100f; // How wide the blast is (Radius)
+
+        var startPos = _cam.WorldPosition;
+        var endPos = startPos + (_cam.WorldRotation.Forward * breathRange);
+
+        // RunAll() returns an array of hits instead of just one!
+        var traces = Scene.Trace.Ray( startPos, endPos )
+            .Radius( breathWidth ) 
+            .WithTag( "zombie" ) 
+            .UseHitboxes()
+            .UsePhysicsWorld()
+            .IgnoreGameObjectHierarchy( GameObject.Root )
+            .RunAll(); 
+
+        // Debug drawing so you can see the actual size of the trace blast
+        Gizmo.Draw.Color = Color.Cyan.WithAlpha( 0.5f );
+        Gizmo.Draw.LineCylinder( startPos, endPos, breathWidth, breathWidth, 16 );
+
+        // Loop through every single thing the massive trace hit
+        foreach ( var hit in traces )
+        {
+            if ( hit.GameObject.IsValid() )
+            {
+                // Try to find the zombie brain on whatever we hit
+                var zombie = hit.GameObject.Components.Get<ZombieAI>( FindMode.EverythingInSelfAndParent );
+                
+                if ( zombie.IsValid() )
+                {
+                    // Stun them!
+                    zombie.Stun( TypeStats.StunDuration );
+                }
+            }
+        }
+
+		await Task.Delay((int)(EffectData.EffectDuration * 1000));
+
+		_isFadingOut = true;
+		_timeSinceFadeStarted = 0;
+
+	}
+	private void DisableBlueDream()
+	{
+		if ( _isFadingOut )
+		{
+			float fraction = _timeSinceFadeStarted / 3f;
+			fraction = MathX.Clamp( fraction, 0f, 1f );
+
+			_vig.Intensity = MathX.Lerp( EffectData.VignetteIntensity, 0f, fraction );
+			_chrAb.Scale = MathX.Lerp( EffectData.ChromaticScale, 0f, fraction );
+
+			if( fraction >= 1f )
+			{
+				_isFadingOut = false;
+				_vig.Destroy();
+				_chrAb.Destroy();
+			}
+		}
+	}
+
+
 	/// <summary>
 	/// Initialises stats from the joint type configuration.
 	/// Call this after setting <see cref="JointType"/> on the host.

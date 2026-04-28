@@ -15,6 +15,7 @@ public readonly struct JointTypeStats
 	public float SpeedMultiplier { get; init; }
 	public float DamageMultiplier { get; init; }
 	public float Cooldown { get; init; }
+	public float StunDuration { get; init; }
 }
 
 public readonly struct VisualEffectData
@@ -101,6 +102,7 @@ public static class JointTypeConfig
 		SpeedMultiplier = 1f,
 		DamageMultiplier = 1f,
         Cooldown = 45f,
+		StunDuration = 3f
 	};
 
     /// <summary>
@@ -158,17 +160,44 @@ public static class VisualEffectConfig
 
 	private static readonly VisualEffectData AK47Effects = new()
 	{
-		
+		EffectDuration = 20f,
+		FadeOutDuration = 2f,
+		CameraFieldOfView = 70f,
+		VignetteIntensity=0.3f,
+		VignetteRoundness=1f,
+		VignetteSmoothnes=1f,
+		VignetteColor = Color.Black,
+		SharpenScale = 2f,
+		SharpenTexelSize = 1f,
+		BloomStrength = 2.5f,
+		BloomThreshold = 1f,
+		BloomGamma = 2.2f,
+		BloomTint = Color.Red
+
 	}; 
 
 	private static readonly VisualEffectData OGKushEffects = new()
 	{
-		
+		EffectDuration = 10f,
+		FadeOutDuration = 2f,
+		CameraFieldOfView = 50f,
+		PixelateScale = 0.2f,
+		ChromaticScale = 0.4f,
+		BloomStrength = 5f,
+		BloomThreshold = 1f,
+		BloomGamma = 2.2f,
+		BloomTint = Color.Green
 	}; 
 
 	private static readonly VisualEffectData BlueDreamEffects = new()
 	{
-		
+		EffectDuration = 8f,
+		FadeOutDuration = 2f,
+		VignetteColor = Color.Blue,
+		VignetteIntensity = 0.3f,
+		VignetteRoundness = 1f,
+		VignetteSmoothnes = 1f,
+		ChromaticScale = 0.6f
 	}; 
 
 	/// <summary>

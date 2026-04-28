@@ -30,6 +30,8 @@ public sealed partial class ZombieAI : Component
 	private float _stateTimer;
 	private float _idleDuration;
 	private float _attackCooldownTimer;
+	private float _stunDuration;
+	private TimeSince _timeSinceStunned;
 
 	// ──────────────────────────────────────────────
 	//  Lifecycle
@@ -91,6 +93,12 @@ public sealed partial class ZombieAI : Component
 			return;
 		}
 
+		if( _stunDuration > 1 && _timeSinceStunned < 1 )
+		{
+			TransitionTo( ZombieState.Stunned );
+			return;
+		}
+
 		// Face the target
 		FaceTarget( _targetPlayer.WorldPosition );
 
@@ -134,6 +142,12 @@ public sealed partial class ZombieAI : Component
 			return;
 		}
 
+		if( _stunDuration > 1 && _timeSinceStunned < 1 )
+		{
+			TransitionTo( ZombieState.Stunned );
+			return;
+		}
+
 		// Face the target
 		FaceTarget( _targetPlayer.WorldPosition );
 
@@ -155,7 +169,7 @@ public sealed partial class ZombieAI : Component
 	//  State: Stunned
 	// ──────────────────────────────────────────────
 
-	private async void TickStunned()
+	private void TickStunned()
 	{
 		// Validate target
 		if ( _targetPlayer is null || !_targetPlayer.IsAlive )
@@ -164,25 +178,25 @@ public sealed partial class ZombieAI : Component
 			return;
 		}
 
-		// Stop the movements
-		Npc.Agent?.Stop();
-
-		// Wait for stun time amount (to be added, static amount just for testing now)
-		await Task.Delay(2000);
-
-		// Transition to: chasing if out of range, attacking if within range
-		var distanceToTarget = Vector3.DistanceBetween( WorldPosition, _targetPlayer.WorldPosition );
-
-		if ( distanceToTarget > Npc.TypeStats.AttackRange * 1.2f )
+		if( _timeSinceStunned > _stunDuration )
 		{
-			TransitionTo( ZombieState.Chasing );
-			return;
+			if( Npc.ModelRenderer.IsValid ) Npc.ModelRenderer.Tint = Color.White;
+
+			// Transition to: chasing if out of range, attacking if within range
+			var distanceToTarget = Vector3.DistanceBetween( WorldPosition, _targetPlayer.WorldPosition );
+
+			if ( distanceToTarget > Npc.TypeStats.AttackRange * 1.2f )
+			{
+				TransitionTo( ZombieState.Chasing );
+				return;
+			}
+			else if ( distanceToTarget <= Npc.TypeStats.AttackRange )
+			{
+				TransitionTo( ZombieState.Attacking );
+				return;
+			}
 		}
-		else if ( distanceToTarget <= Npc.TypeStats.AttackRange )
-		{
-			TransitionTo( ZombieState.Attacking );
-			return;
-		}
+		
 	}
 
 	/// <summary>
@@ -272,6 +286,25 @@ public sealed partial class ZombieAI : Component
 			return;
 
 		_targetPlayer = player;
+
+	}
+
+	/// <summary>
+	/// Initiates the stun logic.
+	/// </summary>
+	public void Stun( float duration )
+	{
+		if( !this.IsValid() ) return;
+		if(Npc.Health <= 0) return;
+
+		_stunDuration = duration;
+		_timeSinceStunned = 0;
+
+		Npc.Agent?.Stop();
+
+		if ( Npc.ModelRenderer.IsValid() ) Npc.ModelRenderer.Tint = Color.Cyan; // for testing visuals
+
+		Log.Info("Zombie Stunned!");
 
 	}
 }
